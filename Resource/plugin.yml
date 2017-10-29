@@ -1,0 +1,6 @@
+name: OffhandCharms
+version: 1.0
+main: me.parozzz.offhandcharms.OffHandCharms
+commands:
+  charm:
+    aliases: [charms]

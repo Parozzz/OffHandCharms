@@ -1,0 +1,162 @@
+Messages:
+  CommandHelp:
+    getcharm: "&b/charm getcharm *charmId* <quantity> <quality>"
+    givecharm: "&b/charm givecharm *playerName* *charmId* <quantity> <quality>"
+    list: "&b/charm list"
+    reload: "&b/charm reload"
+  General:
+    player_offline: "&cThat player is offline"
+    wrong_charm: "&cA charm with that name does not exist"
+    charm_sent: "&fSent a {charm} &6x{amount} &fto {player}"
+    charm_received: "&fReceived a {charm} &6x{amount}"
+    plugin_reloaded: "&2Succesfully reloaded the config"
+    
+particleTimer: 20 #Ticks. 20 ticks = 1 second. Having this too low might lag the server. Set to -1 to remove the particles.
+upgradeOption:
+  onFail: destroy #The initial item will be destroyed on fail
+# ++++++++++++++++++++
+#  onFail: decrease #All effect levels will be descrease by 1
+# ++++++++++++++++++++
+  maxEffect: 4
+  qualityLore: "&7Quality: &b&l{quality}"
+  chanceLore: "&7Chance: &2&l{chance}%"
+  renameExpCost: 10
+  failSound: BLOCK_ANVIL_BREAK,1,1
+  successSound: ENTITY_EXPERIENCE_ORB_PICKUP,1,1
+  
+effectOption:
+  ABSORPTION: 
+    name: "&2Absorption &7{level}/{maxLevel}"
+    particle: SPELL_WITCH 
+    maxLevel: 3
+  BLINDNESS: 
+    name: "&fBlindness &7{level}/{maxLevel}"
+    particle: VILLAGER_ANGRY 
+    maxLevel: 2
+  CONFUSION: 
+    name: "&fConfusion &7{level}/{maxLevel}"
+    particle: VILLAGER_ANGRY 
+    maxLevel: 2
+  DAMAGE_RESISTANCE: 
+    name: "&bResistance &7{level}/{maxLevel}"
+    particle: SMOKE_LARGE 
+    maxLevel: 2
+  FIRE_RESISTANCE: 
+    name: "&cFire Resistance &7{level}/{maxLevel}"
+    particle: FLAME
+    maxLevel: 1
+  FAST_DIGGING: 
+    name: "&2Haste &7{level}/{maxLevel}"
+    particle: CRIT
+    maxLevel: 3
+  GLOWING: 
+    name: "&7Glow &7{level}/{maxLevel}"
+    particle: VILLAGER_ANGRY
+    maxLevel: 1
+  HEALTH_BOOST: 
+    name: "&4Health+ &7{level}/{maxLevel}"
+    particle: HEART
+    maxLevel: 3
+  HUNGER: 
+    name: "&7Hungry &7{level}/{maxLevel}"
+    particle: VILLAGER_ANGRY 
+    maxLevel: 2
+  INCREASE_DAMAGE: 
+    name: "&cStrength &7{level}/{maxLevel}"
+    particle: REDSTONE 
+    maxLevel: 3
+  INVISIBILITY: 
+    name: "&8Ghost &7{level}/{maxLevel}"
+    maxLevel: 1
+  JUMP: 
+    name: "&aJump &7{level}/{maxLevel}"
+    particle: END_ROD
+    maxLevel: 3
+  LEVITATION: 
+    name: "&7Levitate &7{level}/{maxLevel}"
+    particle: VILLAGER_ANGRY 
+    maxLevel: 5
+  LUCK: 
+    name: "&6Lucky &7{level}/{maxLevel}"
+    particle: VILLAGER_HAPPY
+    maxLevel: 3
+  UNLUCK: 
+    name: "&5Unlucky &7{level}/{maxLevel}"
+    particle: VILLAGER_ANGRY 
+    maxLevel: 3
+  NIGHT_VISION: 
+    name: "&fNight Vision &7{level}/{maxLevel}"
+    particle: SNOWBALL 
+    maxLevel: 1
+  POISON: 
+    name: "&5Poisonous &7{level}/{maxLevel}"
+    particle: VILLAGER_ANGRY 
+    maxLevel: 2
+  REGENERATION: 
+    name: "&2Regenerate &7{level}/{maxLevel}"
+    particle: LAVA
+    maxLevel: 1
+  SATURATION: 
+    name: "&6No Hunger &7{level}/{maxLevel}"
+    particle: NOTE 
+    maxLevel: 1
+  SLOW: 
+    name: "&fSlowness &7{level}/{maxLevel}"
+    particle: VILLAGER_ANGRY 
+    maxLevel: 2
+  SLOW_DIGGING: 
+    name: "&fMining Fatigues &7{level}/{maxLevel}"
+    particle: VILLAGER_ANGRY 
+    maxLevel: 2
+  SPEED: 
+    name: "&aSpeed &7{level}/{maxLevel}"
+    particle: FOOTSTEP
+    maxLevel: 3
+  WATER_BREATHING: 
+    name: "&bWater Animal &7{level}/{maxLevel}"
+    particle: WATER_DROP 
+    maxLevel: 1
+  WEAKNESS: 
+    name: "&fWeak &7{level}/{maxLevel}"
+    particle: VILLAGER_ANGRY 
+    maxLevel: 2
+  WITHER: 
+    name: "&0Withered &7{level}/{maxLevel}"
+    particle: VILLAGER_ANGRY 
+    maxLevel: 2
+  
+Charms:
+  waterCharm:
+    upgradable: true
+    Item:
+      id: ink_sack
+      data: 12
+      name: "&bWater &fCharm"
+      lore:
+        - "&7Equip it in your offhand for special powers"
+        - ""
+    effect:
+      - water_breathing: 0
+  strongCharm:
+    upgradable: true
+    Item:
+      id: ink_sack
+      data: 1
+      name: "&cStrong &fCharm"
+      lore:
+        - "&7Equip it in your offhand for special powers"
+        - ""
+    effect:
+      - increase_damage: 0
+  invisibleCharm:
+    upgradable: false
+    Item:
+      id: ink_sack
+      data: 8
+      name: "&8Invisible &fCharm"
+      lore:
+        - "&7Equip it in your offhand for special powers"
+        - ""
+    effect:
+      - invisibility: 0
+      - speed: 0
