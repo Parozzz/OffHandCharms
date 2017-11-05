@@ -10,7 +10,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Iterator;
@@ -22,12 +21,9 @@ import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import me.parozzz.offhandcharms.utilities.classes.ComplexMapList;
-import me.parozzz.offhandcharms.utilities.classes.MapArray;
 import me.parozzz.offhandcharms.utilities.classes.SimpleMapList;
 import me.parozzz.offhandcharms.utilities.reflection.API;
 import me.parozzz.offhandcharms.utilities.reflection.HeadUtils;
@@ -47,7 +43,6 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Builder;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.ConfigurationSection;
@@ -219,17 +214,24 @@ public final class Utils {
     
     public static enum ColorEnum
     {
-        AQUA(Color.AQUA),BLACK(Color.BLACK),FUCHSIA(Color.FUCHSIA),
-        GRAY(Color.GRAY),GREEN(Color.GREEN),LIME(Color.LIME),
-        MAROON(Color.MAROON),NAVY(Color.NAVY),OLIVE(Color.OLIVE),
-        ORANGE(Color.ORANGE),PURPLE(Color.PURPLE),RED(Color.RED),
-        BLUE(Color.BLUE),SILVER(Color.SILVER),TEAL(Color.TEAL),
-        WHITE(Color.WHITE),YELLOW(Color.YELLOW);
+        AQUA(Color.AQUA, ChatColor.AQUA),BLACK(Color.BLACK, ChatColor.BLACK),FUCHSIA(Color.FUCHSIA, ChatColor.LIGHT_PURPLE),
+        GRAY(Color.GRAY, ChatColor.GRAY),GREEN(Color.GREEN, ChatColor.GREEN),LIME(Color.LIME, ChatColor.GREEN),
+        MAROON(Color.MAROON, ChatColor.GRAY),NAVY(Color.NAVY, ChatColor.DARK_BLUE),OLIVE(Color.OLIVE, ChatColor.DARK_GREEN),
+        ORANGE(Color.ORANGE, ChatColor.GOLD),PURPLE(Color.PURPLE, ChatColor.DARK_PURPLE),RED(Color.RED, ChatColor.RED),
+        BLUE(Color.BLUE, ChatColor.BLUE),SILVER(Color.SILVER, ChatColor.DARK_GRAY),TEAL(Color.TEAL, ChatColor.GRAY),
+        WHITE(Color.WHITE, ChatColor.WHITE),YELLOW(Color.YELLOW, ChatColor.YELLOW);
         
         private final Color color;
-        private ColorEnum(Color color)
+        private final ChatColor chat;
+        private ColorEnum(Color color, final ChatColor chat)
         {
+            this.chat=chat;
             this.color=color;
+        }
+        
+        public ChatColor getChatColor()
+        {
+            return chat;
         }
         
         public Color getBukkitColor()
@@ -690,21 +692,24 @@ public final class Utils {
         return nbt.setTag(compound).getBukkitItem();
     }
     
-    public static ItemStack parseItemVariable(final ItemStack item, final String s, final String replace)
+    public static void parseItemVariable(final ItemStack item, final String placeholder, final Object replace)
     {
-        ItemMeta meta=item.getItemMeta();
+        ItemMeta meta = item.getItemMeta();
+        parseMetaVariable(meta, placeholder, replace);
+        item.setItemMeta(meta);
+    }
+    
+    public static void parseMetaVariable(final ItemMeta meta, final String placeholder, final Object replace)
+    {
         if(meta.hasDisplayName())
         {
-            meta.setDisplayName(Utils.color(meta.getDisplayName().replace(s, replace)));
+            meta.setDisplayName(Utils.color(meta.getDisplayName().replace(placeholder, replace.toString())));
         }
        
         if(meta.hasLore())
         {
-            meta.setLore(Utils.colorList(meta.getLore().stream().map(lore -> lore.replace(s, replace)).collect(Collectors.toList())));
+            meta.setLore(Utils.colorList(meta.getLore().stream().map(lore -> lore.replace(placeholder, replace.toString())).collect(Collectors.toList())));
         }
-        
-        item.setItemMeta(meta);
-        return item;
     }
     
     

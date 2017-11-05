@@ -93,7 +93,7 @@ public class ParticleRunnable extends BukkitRunnable
         
         public void spawnAll(final Player p)
         {
-            set.forEach(particle -> API.getParticleManager().spawn(p.getWorld().getPlayers(), ParticleEffect.CLOUD, particle, p.getLocation(), 1));
+            set.forEach(particle -> API.getParticleManager().spawn(p.getWorld().getPlayers(), ParticleEffect.CLOUD, particle, p.getLocation(), Configs.particleAmount));
         }
     }
 }

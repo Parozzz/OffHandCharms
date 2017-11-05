@@ -17,18 +17,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -101,9 +98,20 @@ public class OffHandListener implements Listener
                 {
                     return;
                 }
-
+                
                 switch(e.getAction())
                 {
+                    case HOTBAR_SWAP:
+                        new BukkitRunnable()
+                        {
+                            @Override
+                            public void run() 
+                            {
+                                Optional.ofNullable(e.getWhoClicked().getInventory().getItemInOffHand()).ifPresent(item -> addCharm(e.getWhoClicked(), item));
+                            }
+                        }.runTaskLater(JavaPlugin.getProvidingPlugin(OffHandListener.class), 1L);
+                        removeCharm(e.getWhoClicked(), e.getCurrentItem());
+                        break;
                     case SWAP_WITH_CURSOR:
                         this.removeCharm(e.getWhoClicked(), e.getCurrentItem());
                     case PLACE_ALL:
@@ -113,7 +121,7 @@ public class OffHandListener implements Listener
                     case PICKUP_ONE:
                     case PICKUP_HALF:
                     case DROP_ONE_SLOT:
-                        if(e.getCurrentItem().getType()!=Material.AIR && e.getCurrentItem().getAmount() == 1)
+                        if(e.getCurrentItem().getAmount() == 1)
                         {
                             this.removeCharm(e.getWhoClicked(), e.getCurrentItem());
                         }
@@ -121,10 +129,7 @@ public class OffHandListener implements Listener
                     case PICKUP_ALL:
                     case MOVE_TO_OTHER_INVENTORY:
                     case DROP_ALL_SLOT:
-                        if(e.getCurrentItem().getType()!=Material.AIR)
-                        {
-                            this.removeCharm(e.getWhoClicked(), e.getCurrentItem());
-                        }
+                        removeCharm(e.getWhoClicked(), e.getCurrentItem());
                         break;
                 }
                 break;
@@ -160,19 +165,24 @@ public class OffHandListener implements Listener
     
     private void addCharm(final HumanEntity p, final ItemStack item)
     {
-        Optional.ofNullable(item).map(Charm::new).filter(Charm::isValid).ifPresent(charm -> 
-        {
-            charm.getPotions().stream().map(charm::getPotion).map(Optional::get).forEach(potion -> 
-            {
-                p.addPotionEffect(potion.getPotionEffect(), true);
-                Configs.getEffectOptions(potion.getType()).getParticle().ifPresent(peEnum -> ParticleRunnable.getInstance().addPlayerParticle((Player)p, peEnum));
-            });
-        });
+        Optional.ofNullable(item).filter(temp -> temp.getType()!=Material.AIR)
+                .map(Charm::new).filter(Charm::isValid)
+                .ifPresent(charm -> 
+                {
+                    charm.getPotions().stream().map(charm::getPotion).map(Optional::get).forEach(potion -> 
+                    {
+                        p.addPotionEffect(potion.getPotionEffect(), true);
+                        Configs.getEffectOptions(potion.getType()).getParticle().ifPresent(peEnum -> ParticleRunnable.getInstance().addPlayerParticle((Player)p, peEnum));
+                    });
+                });
     }
     
     private void removeCharm(final HumanEntity p, final ItemStack item)
     {
-        Optional.ofNullable(item).map(Charm::new).filter(Charm::isValid).ifPresent(charm -> removeCharm(p, charm));
+        Optional.ofNullable(item).filter(temp -> temp.getType()!=Material.AIR)
+                .map(Charm::new)
+                .filter(Charm::isValid)
+                .ifPresent(charm -> removeCharm(p, charm));
     }
 
     private void removeCharm(final HumanEntity p, final Charm charm)

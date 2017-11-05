@@ -121,7 +121,7 @@ public class CharmCommand implements CommandExecutor
                     
                     Optional.ofNullable(Bukkit.getPlayer(val[1])).map(p -> 
                     {
-                        (val.length == 5 && Utils.isNumber(val[4]) ? Configs.getCharm(val[1], Integer.valueOf(val[4])) : Configs.getCharm(val[2])).map(charm -> 
+                        (val.length == 5 && Utils.isNumber(val[4]) ? Configs.getCharm(val[2], Integer.valueOf(val[4])) : Configs.getCharm(val[2])).map(charm -> 
                         {
                             if(val.length==4 && Utils.isNumber(val[3]))
                             {
@@ -129,9 +129,9 @@ public class CharmCommand implements CommandExecutor
                             }
                             
                             p.getInventory().addItem(charm);
-                            p.sendMessage(MessageEnum.CHARM_RECEIVED.toString().replace("{charm}", val[1]).replace("{amount}", Objects.toString(charm.getAmount())));
+                            p.sendMessage(MessageEnum.CHARM_RECEIVED.toString().replace("{charm}", val[2]).replace("{amount}", Objects.toString(charm.getAmount())));
                             
-                            cs.sendMessage(MessageEnum.CHARM_SENT.toString().replace("{charm}", val[1]).replace("{amount}", Objects.toString(charm.getAmount())).replace("{player}", p.getName()));
+                            cs.sendMessage(MessageEnum.CHARM_SENT.toString().replace("{charm}", val[2]).replace("{amount}", Objects.toString(charm.getAmount())).replace("{player}", p.getName()));
                             return charm;
                         }).orElseGet(() -> 
                         {

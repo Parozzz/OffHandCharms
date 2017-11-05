@@ -73,6 +73,7 @@ public class Configs
     public static SoundManager failSound;
     public static SoundManager successSound;
     
+    public static int particleAmount;
     public static int particleTimer;
     
     protected static void init()
@@ -81,6 +82,7 @@ public class Configs
         
         FileConfiguration c = JavaPlugin.getProvidingPlugin(Configs.class).getConfig();
         particleTimer = c.getInt("particleTimer");
+        particleAmount = c.getInt("particleAmount");
         
         options = new HashMap<>();
         ConfigurationSection eoPath = c.getConfigurationSection("effectOption");
