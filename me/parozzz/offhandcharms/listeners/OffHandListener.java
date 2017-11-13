@@ -134,7 +134,7 @@ public class OffHandListener implements Listener
                 }
                 break;
             case CONTAINER:
-                if(e.getClick() == ClickType.DOUBLE_CLICK && e.getCursor().isSimilar(e.getWhoClicked().getInventory().getItemInOffHand()))
+                if(e.getClick() == ClickType.DOUBLE_CLICK && e.getCursor()!=null && e.getCursor().isSimilar(e.getWhoClicked().getInventory().getItemInOffHand()))
                 {
                     Charm charm = new Charm(e.getCursor());
                     if(!charm.isValid())

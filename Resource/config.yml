@@ -1,3 +1,4 @@
+metric: true
 Messages:
   CommandHelp:
     getcharm: "&b/charm getcharm *charmId* <quantity> <quality>"
@@ -12,22 +13,23 @@ Messages:
     plugin_reloaded: "&2Succesfully reloaded the config"
     
 particleTimer: 20 #Ticks. 20 ticks = 1 second. Having this too low might lag the server. Set to -1 to remove the particles.
+particleAmount: 2 #Have too much particles might cause lag
 upgradeOption:
   onFail: destroy #The initial item will be destroyed on fail
 # ++++++++++++++++++++
 #  onFail: decrease #All effect levels will be descrease by 1
 # ++++++++++++++++++++
-  maxEffect: 4
-  qualityLore: "&7Quality: &b&l{quality}"
-  chanceLore: "&7Chance: &2&l{chance}%"
-  renameExpCost: 10
+  maxEffect: 4 #Max effects that a charm can have
+  qualityLore: "&7Quality: &b&l{quality}" #Lore that is applied to the item for the quality
+  chanceLore: "&7Chance: &2&l{chance}%" #Lore that is applied to the item during the upgrade session
+  renameExpCost: 10 #Level cost for renaming the charm
   failSound: BLOCK_ANVIL_BREAK,1,1
   successSound: ENTITY_EXPERIENCE_ORB_PICKUP,1,1
   
 effectOption:
   ABSORPTION: 
     name: "&2Absorption &7{level}/{maxLevel}"
-    particle: SPELL_WITCH 
+    particle: SPELL_WITCH #Remove this part for no particle to be displayed
     maxLevel: 3
   BLINDNESS: 
     name: "&fBlindness &7{level}/{maxLevel}"
@@ -126,8 +128,8 @@ effectOption:
     maxLevel: 2
   
 Charms:
-  waterCharm:
-    upgradable: true
+  water:
+    upgradable: false
     Item:
       id: ink_sack
       data: 12
@@ -135,9 +137,9 @@ Charms:
       lore:
         - "&7Equip it in your offhand for special powers"
         - ""
-    effect:
-      - water_breathing: 0
-  strongCharm:
+    effect: #A list with all effects
+      - water_breathing: 0 #PotionEffectType: Amplifier (0 equals level 1)
+  strong:
     upgradable: true
     Item:
       id: ink_sack
@@ -148,8 +150,65 @@ Charms:
         - ""
     effect:
       - increase_damage: 0
-  invisibleCharm:
+  veryStrong:
     upgradable: false
+    Item:
+      id: ink_sack
+      data: 1
+      name: "&cStrong &fCharm"
+      lore:
+        - "&7Equip it in your offhand for special powers"
+        - ""
+    effect:
+      - increase_damage: 4
+  heart:
+    upgradable: true
+    Item:
+      id: redstone
+      data: 0
+      name: "&2Heart &fCharm"
+      lore:
+        - "&7Equip it in your offhand for special powers"
+        - ""
+    effect:
+      - health_boost: 0
+  tank:
+    upgradable: true
+    Item:
+      id: shield
+      data: 0
+      name: "&fResistance &3Shield"
+      lore:
+        - "&7Equip it in your offhand for special powers"
+        - ""
+    effect:
+      - damage_resistance: 0
+  godChalice:
+    upgradable: false
+    Item:
+      id: skull_item
+      data: 3
+      url: "http://textures.minecraft.net/texture/d4edfbe94d2d1fa367832d42aa2824f014da995a72db72b452b9c7b98e4fa"
+      name: "&aGod &dChalice"
+      lore:
+        - "&7Equip it in your offhand for special powers"
+        - ""
+    effect:
+      - saturation: 0
+  luckyBlock:
+    upgradable: false
+    Item:
+      id: skull_item
+      data: 3
+      url: "http://textures.minecraft.net/texture/519d28a8632fa4d87ca199bbc2e88cf368dedd55747017ae34843569f7a634c5"
+      name: "&eLucky &dBlock"
+      lore:
+        - "&7Equip it in your offhand for special &eluckness"
+        - ""
+    effect:
+      - luck: 2
+  invisible:
+    upgradable: true
     Item:
       id: ink_sack
       data: 8

@@ -1,5 +1,5 @@
 name: OffhandCharms
-version: 1.0
+version: 1.1
 main: me.parozzz.offhandcharms.OffHandCharms
 commands:
   charm:

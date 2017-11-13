@@ -23,6 +23,11 @@ public class OffHandCharms extends JavaPlugin
         this.saveDefaultConfig();
         this.reloadConfig();
         
+        if(this.getConfig().getBoolean("metric", true))
+        {
+            new MetricsLite(this);
+        }
+        
         Configs.init();
         if(Configs.particleTimer > 0)
         {
